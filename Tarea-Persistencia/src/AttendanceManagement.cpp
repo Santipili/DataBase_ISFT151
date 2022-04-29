@@ -6,7 +6,7 @@
 #include <iostream>
 //#include <stdio.h>
 //#include <string.h>
-FILE* archivo;
+FILE* persistence;
 
 
 
@@ -19,18 +19,30 @@ AttendanceManagement::~AttendanceManagement() {
 }
 
 void AttendanceManagement::takeAttendance(Student* student, Course* course, string datetime, bool state) {
-    
-    archivo = fopen("Atendance.csv", "w");  
-    
-    fprintf(archivo, (%s%s%s),student->getName(), student->getSurname(), student->getIdentifier() );
-   
-    fclose(archivo);
+
+    ofstream persistence;
+    persistence.open("atendance.csv", ios_base::app);
+
+    if (persistence.is_open()){
+    persistence << student->getIdentifier() <<","<< student->getSurname() <<","<< student->getName() <<","<< course->getName()<<","<< datetime<<","<< state <<"," << endl;
+    }  
+      
+    persistence.close();
 }
 
 void AttendanceManagement::showAttendance() {
-    archivo = fopen("Atendance.csv");
+    string row;
+    ifstream persistence;
+    persistence.open("atendance.csv", ios_base::in);
 
+    if (persistence.is_open()){
+        getline(persistence, row);
 
-    fclose(archivo);
-
+        while (!persistence.eof()){
+            cout << row << endl;
+            getline(persistence, row);
+        }
+    }
+    
+    persistence.close();
 }
