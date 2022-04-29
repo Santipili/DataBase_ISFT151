@@ -1,12 +1,11 @@
 #include "../include/AttendanceManagement.hpp"
-#include "../include/Student.hpp"   // se vuelven a llamar?? 
-#include "../include/Course.hpp"    // por mas que en el hpp ya se incluyen las bibliotecas?
+#include "../include/Student.hpp"   
+#include "../include/Course.hpp"    
 #include <fstream>
 #include <string>
 #include <iostream>
-//#include <stdio.h>
-//#include <string.h>
-FILE* persistence;
+
+//FILE* persistence;
 
 
 
@@ -24,7 +23,7 @@ void AttendanceManagement::takeAttendance(Student* student, Course* course, stri
     persistence.open("atendance.csv", ios_base::app);
 
     if (persistence.is_open()){
-    persistence << student->getIdentifier() <<","<< student->getSurname() <<","<< student->getName() <<","<< course->getName()<<","<< datetime<<","<< state <<"," << endl;
+    persistence << student->getIdentifier() <<","<< student->getSurname() <<","<< student->getName() <<","<< course->getName()<<","<< datetime<<","<< state <<",\n";
     }  
       
     persistence.close();
@@ -39,7 +38,7 @@ void AttendanceManagement::showAttendance() {
         getline(persistence, row);
 
         while (!persistence.eof()){
-            cout << row << endl;
+            std::cout << row << endl;
             getline(persistence, row);
         }
     }
